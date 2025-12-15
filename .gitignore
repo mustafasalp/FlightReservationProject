@@ -1,0 +1,15 @@
+# Frontend (Angular)
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.angular/
+
+# Backend (.NET)
+Backend/bin/
+Backend/obj/
+Backend/*.user
+Backend/*.suo
+Backend/*.log
+
+# Genel
+.env
+appsettings.Development.json
