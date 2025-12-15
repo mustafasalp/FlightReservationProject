@@ -1,0 +1,108 @@
+<div class="auth-page">
+  <div class="floating-blob blob-1"></div>
+  <div class="floating-blob blob-2"></div>
+
+  <div class="auth-shell">
+    <div class="hero-pane">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="badge">New member bonus</div>
+        <h1>Create your FlightReserve ID</h1>
+        <p>Seamless bookings, live seat maps, and curated fares from premium carriers.</p>
+        <div class="highlight-grid">
+          <div class="tile">
+            <mat-icon>verified</mat-icon>
+            Trusted checkouts
+          </div>
+          <div class="tile">
+            <mat-icon>auto_awesome</mat-icon>
+            Smart itineraries
+          </div>
+          <div class="tile">
+            <mat-icon>emoji_events</mat-icon>
+            Reward multipliers
+          </div>
+          <div class="tile">
+            <mat-icon>support_agent</mat-icon>
+            24/7 concierge
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-card class="auth-card">
+      <div class="card-header">
+        <div class="pill">Step aboard</div>
+        <h2>Set up your cockpit</h2>
+        <p class="sub">One profile for all your trips, upgrades, and team travel.</p>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half">
+          <mat-label>First Name</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput [(ngModel)]="model.firstName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half">
+          <mat-label>Last Name</mat-label>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input matInput [(ngModel)]="model.lastName" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix>mail</mat-icon>
+        <input matInput [(ngModel)]="model.email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <mat-icon matPrefix>alternate_email</mat-icon>
+        <input matInput [(ngModel)]="model.userName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <mat-icon matPrefix>key</mat-icon>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="model.password" />
+        <button mat-icon-button matSuffix type="button" class="password-toggle" (click)="togglePassword()"
+          [class.active]="!hidePassword" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+          title="Toggle password visibility">
+          <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <mat-icon matPrefix>verified_user</mat-icon>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="model.confirmPassword" />
+        <button mat-icon-button matSuffix type="button" class="password-toggle" (click)="toggleConfirmPassword()"
+          [class.active]="!hideConfirmPassword"
+          [attr.aria-label]="hideConfirmPassword ? 'Show confirm password' : 'Hide confirm password'"
+          title="Toggle password visibility">
+          <mat-icon>{{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div class="helper-row">
+        <div class="helper-text">Use at least 8 characters with a mix of letters and numbers.</div>
+      </div>
+
+      <button mat-raised-button color="accent" class="cta" (click)="register()">
+        <mat-icon>flight_takeoff</mat-icon>
+        Register
+      </button>
+
+      <div class="cta-secondary">
+        Already flying with us?
+        <a routerLink="/login">Go to login</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </mat-card>
+  </div>
+</div>

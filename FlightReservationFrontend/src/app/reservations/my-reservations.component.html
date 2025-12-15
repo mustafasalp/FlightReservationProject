@@ -1,0 +1,145 @@
+<div class="reservations-container" style="padding: 2rem; padding-top: 8rem; max-width: 1000px; margin: 0 auto;">
+    <h2 style="margin-bottom: 1rem; color: #1e293b; font-size: 2rem; font-weight: 800;">My Reservations</h2>
+
+    <!-- TABS -->
+    <div class="tabs-header">
+        <button class="tab-btn" [class.active]="activeTab === 'current'" (click)="switchTab('current')">
+            Upcoming Flights
+            <span *ngIf="currentReservations.length > 0"
+                style="background: #e0f2fe; color: #0284c7; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">
+                {{ currentReservations.length }}
+            </span>
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'past'" (click)="switchTab('past')">
+            Past Flights
+            <span *ngIf="pastReservations.length > 0"
+                style="background: #f1f5f9; color: #64748b; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; margin-left: 8px;">
+                {{ pastReservations.length }}
+            </span>
+        </button>
+    </div>
+
+    <!-- LOADING STATE -->
+    <div *ngIf="loading" style="text-align: center; padding: 3rem; color: #64748b;">
+        <p>Loading your flights...</p>
+    </div>
+
+    <!-- ERROR STATE -->
+    <div *ngIf="error"
+        style="background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        {{ error }}
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="!loading && !error && displayedReservations.length === 0"
+        style="text-align: center; padding: 4rem; background: white; border-radius: 16px; border: 2px dashed #e2e8f0;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✈️</div>
+        <h3 style="color: #475569; margin-bottom: 0.5rem;" *ngIf="activeTab === 'current'">No Upcoming Flights</h3>
+        <h3 style="color: #475569; margin-bottom: 0.5rem;" *ngIf="activeTab === 'past'">No Past Flights</h3>
+        <p style="color: #94a3b8; margin-bottom: 2rem;">You don't have any {{ activeTab === 'current' ? 'upcoming' :
+            'past' }} bookings.</p>
+        <a routerLink="/" *ngIf="activeTab === 'current'"
+            style="background: #000; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+            Book a Flight
+        </a>
+    </div>
+
+    <!-- RESERVATIONS LIST -->
+    <div *ngIf="!loading && displayedReservations.length > 0" style="display: grid; gap: 1.5rem;">
+        <div *ngFor="let res of displayedReservations"
+            style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; display: grid; gap: 1rem;">
+
+            <!-- Header: Airline & Code -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                <div
+                    style="font-weight: 700; color: #0f172a; font-size: 1.1rem; display: flex; align-items: center; gap: 10px;">
+                    <img *ngIf="getAirlineLogo(res.flight?.airline)" [src]="getAirlineLogo(res.flight?.airline)"
+                        alt="Logo" style="height: 30px; width: auto; object-fit: contain;">
+                    <span>
+                        {{ res.flight?.airline || 'Airline' }}
+                        <span style="color: #64748b; font-weight: normal; margin-left: 0.5rem;">#{{
+                            res.flight?.flightNumber }}</span>
+                    </span>
+                </div>
+                <div
+                    style="background: #f0f9ff; color: #0369a1; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                    {{ res.reservationCode }}
+                </div>
+                <!-- Status Badge -->
+                <div *ngIf="res.flight?.status" [ngStyle]="{
+                       'background': activeTab === 'past' ? '#f3f4f6' : (res.flight?.status === 'Scheduled' ? '#dcfce7' : '#fee2e2'),
+                       'color': activeTab === 'past' ? '#6b7280' : (res.flight?.status === 'Scheduled' ? '#166534' : '#991b1b')
+                     }"
+                    style="padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-left: 10px;">
+                    {{ activeTab === 'past' ? 'Completed' : res.flight?.status }}
+                </div>
+            </div>
+
+            <!-- Route Info -->
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem;">
+                <div>
+                    <div style="font-size: 1.5rem; font-weight: 800; color: #334155;">{{ res.flight?.origin }}</div>
+                    <div style="color: #94a3b8; font-size: 0.9rem;">
+                        {{ res.flight?.departureTime | date:'mediumDate' }}
+                    </div>
+                    <div style="color: #64748b; font-weight: 600;">
+                        {{ res.flight?.departureTime | date:'shortTime' }}
+                    </div>
+                </div>
+
+                <div style="text-align: center; color: #cbd5e1;">
+                    <div style="font-size: 1.5rem;">✈</div>
+                    <div style="font-size: 0.8rem;">{{ res.flight?.duration }}</div>
+                </div>
+
+                <div style="text-align: right;">
+                    <div style="font-size: 1.5rem; font-weight: 800; color: #334155;">{{ res.flight?.destination }}
+                    </div>
+                    <div style="color: #94a3b8; font-size: 0.9rem;">
+                        {{ res.flight?.arrivalTime | date:'mediumDate' }}
+                    </div>
+                    <div style="color: #64748b; font-weight: 600;">
+                        {{ res.flight?.arrivalTime | date:'shortTime' }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer: Seat & Price -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; margin: -1.5rem; margin-top: 1rem; padding: 1rem 1.5rem; border-top: 1px solid #e2e8f0; border-radius: 0 0 16px 16px;">
+                <div style="display: flex; gap: 2rem;">
+                    <div>
+                        <span
+                            style="display: block; font-size: 0.75rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Seat</span>
+                        <span style="font-weight: 700; color: #334155;">{{ res.seat?.seatNumber }}</span>
+                    </div>
+                    <div>
+                        <span
+                            style="display: block; font-size: 0.75rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Class</span>
+                        <span style="font-weight: 700; color: #334155;">{{ res.seat?.class }}</span>
+                    </div>
+                </div>
+                <div
+                    style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                    <div>
+                        <span
+                            style="display: block; font-size: 0.75rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Total
+                            Paid</span>
+                        <span style="font-weight: 800; color: #16a34a; font-size: 1.2rem;">${{ res.totalPrice }}</span>
+                    </div>
+
+                    <button *ngIf="canCancel(res.flight?.departureTime)" (click)="cancelReservation(res.id)"
+                        style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">
+                        Cancel Reservation
+                    </button>
+                    <span *ngIf="!canCancel(res.flight?.departureTime)"
+                        style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">
+                        Cannot cancel (less than 3 days)
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

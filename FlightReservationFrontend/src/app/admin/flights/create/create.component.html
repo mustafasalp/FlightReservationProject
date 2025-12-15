@@ -1,0 +1,76 @@
+<!-- create.component.html -->
+<div class="page-bg"></div>
+
+<div class="create-wrapper">
+  <div class="form-card">
+
+    <h2>Create New Flight</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="grid-2">
+
+        <div class="form-row">
+          <label>Flight Number</label>
+          <input formControlName="flightNumber" placeholder="TK123">
+        </div>
+
+        <div class="form-row">
+          <label>Airline <span style="font-size: 0.75rem; color: #ef4444; font-weight: normal;">(Please look airline
+              name first)</span></label>
+          <input formControlName="airline" placeholder="Turkish Airlines">
+        </div>
+
+        <div class="form-row">
+          <label>Origin</label>
+          <input formControlName="origin" placeholder="Izmir">
+        </div>
+
+        <div class="form-row">
+          <label>Destination</label>
+          <input formControlName="destination" placeholder="Istanbul">
+        </div>
+
+        <div class="form-row">
+          <label>Duration</label>
+          <input formControlName="duration" placeholder="2h 30m">
+        </div>
+
+        <div class="form-row">
+          <label>Departure Time</label>
+          <input type="datetime-local" formControlName="departureTime">
+          <div *ngIf="form.get('departureTime')?.hasError('pastDate') && form.get('departureTime')?.touched"
+            style="color: red; font-size: 0.8rem; margin-top: 5px;">
+            Departure time cannot be in the past.
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Arrival Time</label>
+          <input type="datetime-local" formControlName="arrivalTime">
+        </div>
+
+        <div class="form-row">
+          <label>Total Capacity</label>
+          <input type="number" formControlName="totalCapacity">
+        </div>
+
+        <div class="form-row">
+          <label>Base Price (Economy)</label>
+          <input type="number" formControlName="basePrice">
+        </div>
+
+        <div class="form-row">
+          <label>Business Price</label>
+          <input type="number" formControlName="businessPrice">
+        </div>
+
+      </div>
+
+      <button class="submit-btn" type="submit" [disabled]="loading">
+        {{ loading ? 'Saving...' : 'Create Flight' }}
+      </button>
+
+    </form>
+  </div>
+</div>

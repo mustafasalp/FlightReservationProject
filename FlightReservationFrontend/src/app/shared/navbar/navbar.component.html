@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="logo" routerLink="/">✈ Flight<span>Reserve</span></div>
+
+  <ul class="nav-links">
+
+    <li routerLink="/">Home</li>
+
+    <!-- USER -->
+    <li *ngIf="authService.isLoggedIn() && !authService.isAdmin()" routerLink="/my-reservations">
+      My Reservations
+    </li>
+
+    <!-- ADMIN -->
+    <li class="admin-dropdown" *ngIf="authService.isLoggedIn() && authService.isAdmin()">
+      <span>Admin Panel ▾</span>
+      <ul class="dropdown-menu">
+        <li routerLink="/admin/flights">Flights List</li>
+        <li routerLink="/admin/flights/create">Create Flight</li>
+      </ul>
+    </li>
+
+    <!-- GUEST -->
+    <li *ngIf="!authService.isLoggedIn()" routerLink="/login">Login</li>
+    <li *ngIf="!authService.isLoggedIn()" routerLink="/register">Register</li>
+
+    <!-- LOGGED-IN USER -->
+    <li *ngIf="authService.isLoggedIn()" class="user-chip">
+      {{ userName }}
+    </li>
+    <li *ngIf="authService.isLoggedIn()" (click)="logout()">Logout</li>
+  </ul>
+</nav>

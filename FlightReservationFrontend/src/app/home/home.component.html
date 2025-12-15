@@ -1,0 +1,185 @@
+<div *ngIf="logoutMessage" class="logout-message">
+  <mat-icon>logout</mat-icon>
+  {{ logoutMessage }}
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+  <div class="hero-content">
+
+    <!-- HERO TEXT -->
+    <div class="hero-text">
+      <h1>Discover Your Next <span class="highlight">Adventure</span></h1>
+      <p>Experience premium travel with our exclusive flight selection. Comfort, speed, and luxury await.</p>
+    </div>
+
+    <!-- SEARCH CONTAINER -->
+    <div class="search-container">
+      <div class="search-form">
+
+        <!-- FROM -->
+        <div class="form-group">
+          <label>From</label>
+          <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-icon matPrefix>flight_takeoff</mat-icon>
+            <mat-select placeholder="Select City" [(ngModel)]="searchModel.from">
+              <mat-option [value]="null">None</mat-option>
+              <mat-option *ngFor="let city of origins" [value]="city">{{ city }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- TO -->
+        <div class="form-group">
+          <label>To</label>
+          <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-icon matPrefix>flight_land</mat-icon>
+            <mat-select placeholder="Select City" [(ngModel)]="searchModel.to">
+              <mat-option [value]="null">None</mat-option>
+              <mat-option *ngFor="let city of destinations" [value]="city">{{ city }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- DATE -->
+        <div class="form-group">
+          <label>Date</label>
+          <mat-form-field appearance="fill" subscriptSizing="dynamic">
+            <mat-icon matPrefix>calendar_today</mat-icon>
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="searchModel.date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- CLASS CHECKBOXES REMOVED -->
+
+        <!-- SEARCH BUTTON -->
+        <div class="form-actions">
+          <button class="btn primary" (click)="onSearch()" [disabled]="loading">
+            <span *ngIf="!loading">Search Flights</span>
+            <span *ngIf="loading" class="spinner material-icons">refresh</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RESULTS (Moved above auth section) -->
+<div class="results-section" *ngIf="flights.length > 0">
+  <div class="container">
+    <h2>Available Flights</h2>
+
+    <div class="flights-grid">
+      <div class="flight-card" *ngFor="let flight of flights">
+
+        <div class="flight-header">
+          <div class="airline-info">
+            <img [src]="flight.logoUrl" [alt]="flight.airline" class="airline-logo" *ngIf="flight.logoUrl">
+            <span class="airline">{{ flight.airline }}</span>
+          </div>
+          <div class="price-info">
+            <div class="price-item">
+              <span class="label">Economy</span>
+              <span class="value">${{ flight.basePrice }}</span>
+            </div>
+            <div class="price-item">
+              <span class="label">Business</span>
+              <span class="value">${{ flight.businessPrice }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="route">
+          <div class="city-info text-left">
+            <div class="city-name">{{ flight.origin }}</div>
+            <div class="flight-time">
+              {{ flight.departureTime | date:'MMM d, y' }}
+              <br>
+              {{ flight.departureTime | date:'shortTime' }}
+            </div>
+          </div>
+
+          <div class="flight-icon">
+            <mat-icon>flight_takeoff</mat-icon> <!-- Changed icon for better visual -->
+          </div>
+
+          <div class="city-info text-right">
+            <div class="city-name">{{ flight.destination }}</div>
+            <div class="flight-time">
+              {{ flight.arrivalTime | date:'MMM d, y' }}
+              <br>
+              {{ flight.arrivalTime | date:'shortTime' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="details">
+          <span>{{ flight.duration || "Duration unavailable" }}</span>
+          <span>Non-stop</span>
+        </div>
+
+        <button class="btn primary" (click)="onBook(flight.id)" [disabled]="isPast(flight.departureTime)"
+          [style.background]="isPast(flight.departureTime) ? '#cbd5e1' : ''"
+          [style.cursor]="isPast(flight.departureTime) ? 'not-allowed' : 'pointer'">
+          {{ isPast(flight.departureTime) ? 'Past Flight' : 'Book Now' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AUTH SECTION -->
+<div class="auth-wrapper">
+
+  <!-- Not Logged In -->
+  <div class="auth-box" *ngIf="!auth.isLoggedIn()">
+    <h2>Welcome to FlightReserve</h2>
+    <p>Login or create an account to book your flights.</p>
+
+    <button class="btn primary" (click)="goToLogin()">Login</button>
+    <button class="btn secondary" (click)="goToRegister()">Register</button>
+  </div>
+
+  <!-- Logged In (User) -->
+  <div class="auth-box" *ngIf="auth.isLoggedIn() && !auth.isAdmin()">
+    <h2>Hello {{ auth.getUserName() }} 👋</h2>
+    <p>View your reservations anytime.</p>
+
+    <button class="btn primary" (click)="goToMyReservations()">My Reservations</button>
+  </div>
+
+  <!-- Logged In (Admin Only) -->
+  <div class="auth-box" *ngIf="auth.isLoggedIn() && auth.isAdmin()">
+    <h2>Admin Panel</h2>
+    <p>Manage flights and reservations.</p>
+
+    <button class="btn primary" (click)="goToAdmin()">Go to Admin Dashboard</button>
+  </div>
+
+</div>
+
+<!-- AIRLINE TICKER -->
+<div class="airlines-ticker">
+  <h3>Trusted by World's Best Airlines</h3>
+
+  <div class="ticker-track">
+    <!-- COPY 1 -->
+    <div class="airline-logo" *ngFor="let airline of airlines">
+      <a [href]="airline.url" target="_blank">
+        <img [src]="airline.logo" [alt]="airline.name">
+      </a>
+    </div>
+
+    <!-- COPY 2 (scroll) -->
+    <div class="airline-logo" *ngFor="let airline of airlines">
+      <a [href]="airline.url" target="_blank">
+        <img [src]="airline.logo" [alt]="airline.name">
+      </a>
+    </div>
+  </div>
+</div>

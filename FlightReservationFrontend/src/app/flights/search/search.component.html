@@ -1,0 +1,31 @@
+<div class="search-container">
+  <h2>Search Flights</h2>
+
+  <div class="form">
+    <input type="text" placeholder="Origin" [(ngModel)]="origin" />
+
+    <input type="text" placeholder="Destination" [(ngModel)]="destination" />
+
+    <input type="date" [(ngModel)]="date" />
+
+    <button (click)="searchFlights()">Search</button>
+  </div>
+
+  <div *ngIf="loading">Loading flights...</div>
+
+  <div *ngIf="flights.length > 0" class="results">
+    <h3>Available Flights</h3>
+
+    <div class="flight-card" *ngFor="let f of flights">
+      <p><strong>{{ f.origin }}</strong> → <strong>{{ f.destination }}</strong></p>
+      <p>Departure: {{ f.departureTime | date:'short' }}</p>
+      <p>Price: {{ f.price }}₺</p>
+
+      <button (click)="goToDetails(f.flightId)">Details</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && flights.length === 0">
+    No flights found.
+  </div>
+</div>

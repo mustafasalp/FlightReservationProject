@@ -1,0 +1,46 @@
+<div class="login-page">
+  <div class="overlay"></div>
+
+  <div class="login-wrapper">
+    <div class="login-text">
+      <h1>Welcome Back, Captain</h1>
+      <p>Board your flight dashboard and unlock exclusive features</p>
+    </div>
+
+    <div class="login-box">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username or Email</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput [(ngModel)]="model.usernameOrEmail" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Password</mat-label>
+        <mat-icon matPrefix>key</mat-icon>
+        <input
+          matInput
+          [(ngModel)]="model.password"
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="••••••••" />
+        <button mat-icon-button matSuffix type="button" (click)="togglePassword()">
+          <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-btn" (click)="login()" [disabled]="loading">
+        <mat-icon>login</mat-icon>
+        <span *ngIf="!loading">Login</span>
+        <span *ngIf="loading" class="spinner material-icons">refresh</span>
+      </button>
+
+      <div *ngIf="errorMessage" class="error-box">
+        <mat-icon>error_outline</mat-icon>
+        {{ errorMessage }}
+      </div>
+
+      <p class="register-text">
+        New here? <a routerLink="/register">Create an account</a>
+      </p>
+    </div>
+  </div>
+</div>

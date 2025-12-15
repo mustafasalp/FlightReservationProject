@@ -1,0 +1,111 @@
+<div class="page-bg"></div>
+
+<div class="list-wrapper">
+    <div class="list-container">
+        <div class="header">
+            <h1>Manage Flights</h1>
+            <button class="create-btn" (click)="createFlight()">
+                ✈ Create New Flight
+            </button>
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+            ✅ {{ successMessage }}
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+            ❌ {{ errorMessage }}
+        </div>
+
+        <div *ngIf="loading" class="loading">Loading flights...</div>
+
+        <div *ngIf="!loading && flights.length === 0" class="no-flights">
+            No flights found. Create your first flight!
+        </div>
+
+        <div *ngIf="!loading && flights.length > 0" class="flights-grid">
+            <div *ngFor="let flight of flights" class="flight-card"
+                [style.opacity]="isPast(flight.departureTime) ? '0.6' : '1'"
+                [style.background]="isPast(flight.departureTime) ? '#f3f4f6' : 'white'">
+
+                <!-- Past Badge -->
+                <div *ngIf="isPast(flight.departureTime)"
+                    style="position: absolute; top: 10px; right: 10px; background: #64748b; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">
+                    Past
+                </div>
+                <div class="flight-header">
+                    <div class="header-left">
+                        <img [src]="flight.logoUrl" [alt]="flight.airline" class="airline-logo"
+                            onerror="this.style.display='none'">
+                        <div>
+                            <div class="flight-number">{{ flight.flightNumber }}</div>
+                            <div class="airline">{{ flight.airline }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flight-route">
+                    <div class="location">
+                        <div class="label">From</div>
+                        <div class="city">{{ flight.origin }}</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="location">
+                        <div class="label">To</div>
+                        <div class="city">{{ flight.destination }}</div>
+                    </div>
+                </div>
+
+                <div class="flight-info">
+                    <div class="info-row">
+                        <span class="label">Duration:</span>
+                        <span class="value">{{ flight.duration }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Departure:</span>
+                        <span class="value">{{ formatDate(flight.departureTime) }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Arrival:</span>
+                        <span class="value">{{ formatDate(flight.arrivalTime) }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Capacity:</span>
+                        <span class="value">{{ flight.totalCapacity }} seats</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Economy:</span>
+                        <span class="value">${{ flight.basePrice }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Business:</span>
+                        <span class="value">${{ flight.businessPrice }}</span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="edit-btn" (click)="editFlight(flight.id)">
+                        ✏️ Edit
+                    </button>
+                    <button class="delete-btn" (click)="confirmDelete(flight.id, flight.flightNumber)">
+                        🗑️ Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div class="modal-overlay" *ngIf="showDeleteModal">
+    <div class="modal-content">
+        <h3>Delete Flight</h3>
+        <p>Are you sure you want to delete flight <strong>{{ flightToDelete?.flightNumber }}</strong>?</p>
+        <p class="warning-text">This action cannot be undone.</p>
+
+        <div class="modal-actions">
+            <button class="cancel-modal-btn" (click)="cancelDelete()">Cancel</button>
+            <button class="delete-modal-btn" (click)="deleteFlight()">Delete</button>
+        </div>
+    </div>
+</div>

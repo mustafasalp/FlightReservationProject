@@ -1,0 +1,114 @@
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: all 0.3s ease;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+
+    span {
+      color: var(--secondary-light);
+    }
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    li {
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--secondary);
+        transition: width 0.3s;
+      }
+
+      &:hover {
+        color: white;
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+
+    .user-chip {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    // ADMIN DROPDOWN STYLE
+    .admin-dropdown {
+      position: relative;
+      cursor: pointer;
+
+      .admin-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+
+        &::after {
+          content: ' ▼';
+          font-size: 0.7rem;
+        }
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 28px;
+        left: 0;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 0.5rem 0;
+        z-index: 1001;
+        min-width: 150px;
+
+        li {
+          padding: 0.5rem 1rem;
+          white-space: nowrap;
+          transition: background 0.2s ease;
+          color: white;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.15);
+          }
+        }
+      }
+
+      &:hover .dropdown-menu {
+        display: block;
+      }
+    }
+  }
+}

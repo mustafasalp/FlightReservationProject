@@ -1,0 +1,88 @@
+<div class="page-bg"></div>
+
+<div class="edit-wrapper">
+    <div class="form-card">
+
+        <h2>Edit Flight</h2>
+
+        <div *ngIf="loading && !errorMessage" class="loading">
+            Loading flight details...
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+            <p>{{ errorMessage }}</p>
+            <button class="cancel-btn" (click)="cancel()">Go Back</button>
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+            <p>✅ {{ successMessage }}</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!loading || form.value.flightNumber">
+
+            <div class="grid-2">
+
+                <div class="form-row">
+                    <label>Flight Number</label>
+                    <input formControlName="flightNumber" placeholder="TK123">
+                </div>
+
+                <div class="form-row">
+                    <label>Airline</label>
+                    <input formControlName="airline" placeholder="Turkish Airlines">
+                </div>
+
+                <div class="form-row">
+                    <label>Origin</label>
+                    <input formControlName="origin" placeholder="Izmir">
+                </div>
+
+                <div class="form-row">
+                    <label>Destination</label>
+                    <input formControlName="destination" placeholder="Istanbul">
+                </div>
+
+                <div class="form-row">
+                    <label>Departure Time</label>
+                    <input type="datetime-local" formControlName="departureTime">
+                </div>
+
+                <div class="form-row">
+                    <label>Arrival Time</label>
+                    <input type="datetime-local" formControlName="arrivalTime">
+                </div>
+
+                <div class="form-row">
+                    <label>Total Capacity</label>
+                    <input type="number" formControlName="totalCapacity">
+                </div>
+
+                <div class="form-row">
+                    <label>Base Price (Economy)</label>
+                    <input type="number" formControlName="basePrice">
+                </div>
+
+                <div class="form-row">
+                    <label>Business Price</label>
+                    <input type="number" formControlName="businessPrice">
+                </div>
+
+                <div class="form-row">
+                    <label>Duration</label>
+                    <input formControlName="duration" placeholder="e.g. 2h 30min">
+                </div>
+
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="cancel-btn" (click)="cancel()">
+                    Cancel
+                </button>
+                <button class="submit-btn" type="submit" [disabled]="loading">
+                    {{ loading ? 'Updating...' : 'Update Flight' }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

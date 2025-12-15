@@ -1,0 +1,95 @@
+﻿
+> flight-reservation-frontend@0.0.0 build
+> ng build --no-progress
+
+Application bundle generation failed. [2.889 seconds] - 2025-12-06T21:29:24.687Z
+
+node.exe : [1m[31m
+[31mX [41;31m[[41
+;97mERROR[41;31m][
+0m [1mTS2564: Prope
+rty 'origin' has no 
+initializer and is n
+ot definitely assign
+ed in the constructo
+r.[0m [1m[35m[plu
+gin angular-compiler
+][0m
+At line:1 char:1
++ & "C:\Program File
+s\nodejs/node.exe" "
+C:\Program Files\nod
+ejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo  
+            : NotS  
+  pecified: ([1m   
+ [31m[31mX...r    
+-compiler][0m:    S
+tring) [], Rem    ot
+eException
+    + FullyQualifie 
+   dErrorId : Nati  
+  veCommandError
+ 
+
+    src/app/flights/
+search/search.compon
+ent.ts:16:2:
+[37m      16 Ôöé   
+[32morigin[37m: st
+ring | null;
+         ÔòÁ   [32m
+~~~~~~[0m
+
+
+[31mX [41;31m[[41
+;97mERROR[41;31m][
+0m [1mTS2345: Argum
+ent of type 'string 
+| null' is not assig
+nable to parameter o
+f type 'string'.
+  Type 'null' is not
+ assignable to type 
+'string'.[0m [1m[
+35m[plugin angular-c
+ompiler][0m
+
+    src/app/flights/
+search/search.compon
+ent.ts:44:38:
+[37m      44 Ôöé ..
+.ghtsService.searchF
+lights([32mthis.ori
+gin[37m, this.desti
+nation, this.d...
+         ÔòÁ        
+                    
+  [32m~~~~~~~~~~~[
+0m
+
+
+[31mX [41;31m[[41
+;97mERROR[41;31m][
+0m [1mTS2345: Argum
+ent of type 'null' i
+s not assignable to 
+parameter of type 's
+tring'.[0m [1m[35
+m[plugin angular-com
+piler][0m
+
+    src/app/home/hom
+e.component.ts:56:8:
+[37m      56 Ôöé   
+      [32mthis.sear
+chModel.date[37m
+         ÔòÁ        
+ [32m~~~~~~~~~~~~~~
+~~~~~~~[0m
+
+[39m[22m
