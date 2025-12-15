@@ -30,9 +30,9 @@ The application allows users to search flights, make reservations, and manage bo
 
 FlightReservationApp <br/> 
 │<br/> 
-├─ FlightReservationFrontend # Angular frontend application<br/> 
+├─ FlightReservationFrontend  **Angular frontend application**<br/> 
 │<br/> 
-└─ FlightReservationBackend # ASP.NET Core Web API backend<br/> 
+└─ FlightReservationBackend  **ASP.NET Core Web API backend**<br/> 
 
 
 ---
