@@ -28,11 +28,11 @@ The application allows users to search flights, make reservations, and manage bo
 
 ## 📁 Project Structure
 
-FlightReservationApp
-│
-├─ FlightReservationFrontend # Angular frontend application
-│
-└─ FlightReservationBackend # ASP.NET Core Web API backend
+FlightReservationApp <br/> 
+│<br/> 
+├─ FlightReservationFrontend # Angular frontend application<br/> 
+│<br/> 
+└─ FlightReservationBackend # ASP.NET Core Web API backend<br/> 
 
 
 ---
