@@ -1,14 +1,15 @@
 # Frontend (Angular)
-Frontend/node_modules/
-Frontend/dist/
-Frontend/.angular/
+FlightReservationFrontend/node_modules/
+FlightReservationFrontend/dist/
+FlightReservationFrontend/.angular/
 
 # Backend (.NET)
-Backend/bin/
-Backend/obj/
-Backend/*.user
-Backend/*.suo
-Backend/*.log
+FlightReservationBackend/bin/
+FlightReservationBackend/obj/
+FlightReservationBackend/.vs/
+FlightReservationBackend/**/*.user
+FlightReservationBackend/**/*.suo
+FlightReservationBackend/**/*.log
 
 # Genel
 .env
