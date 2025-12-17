@@ -43,10 +43,20 @@ export class Seats implements OnInit {
     this.bookingForm = this.fb.group({
       seatClass: ['Economy', Validators.required],
       seatId: ['', Validators.required],
-      cardNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{12}$/)]],
-      expiryDate: ['', Validators.required],
+      cardNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{16}$/)]],
+      expiryDate: ['', [Validators.required, this.futureDateValidator]],
       cvv: ['', [Validators.required, Validators.pattern(/^[0-9]{3}$/)]]
     });
+  }
+
+  futureDateValidator(control: any) {
+    if (!control.value) return null;
+    const inputDate = new Date(control.value);
+    const now = new Date();
+    // Reset inputs to start of month for comparison
+    const inputMonth = new Date(inputDate.getFullYear(), inputDate.getMonth(), 1);
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    return inputMonth < currentMonth ? { pastDate: true } : null;
   }
 
   ngOnInit(): void {

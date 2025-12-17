@@ -1,108 +1,119 @@
-<div class="auth-page">
-  <div class="floating-blob blob-1"></div>
-  <div class="floating-blob blob-2"></div>
+<div class="register-container">
+  <div class="register-shell">
 
-  <div class="auth-shell">
+    <!-- Hero / Info Section -->
     <div class="hero-pane">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="badge">New member bonus</div>
-        <h1>Create your FlightReserve ID</h1>
-        <p>Seamless bookings, live seat maps, and curated fares from premium carriers.</p>
-        <div class="highlight-grid">
-          <div class="tile">
-            <mat-icon>verified</mat-icon>
-            Trusted checkouts
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="badge">New Member Bonus</div>
+        <h1>Start Your Journey</h1>
+        <p>Join thousands of travelers experiencing the new age of flight.</p>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="icon">✨</span>
+            <span>Premium Deals</span>
           </div>
-          <div class="tile">
-            <mat-icon>auto_awesome</mat-icon>
-            Smart itineraries
+          <div class="feature-item">
+            <span class="icon">🌍</span>
+            <span>Global Access</span>
           </div>
-          <div class="tile">
-            <mat-icon>emoji_events</mat-icon>
-            Reward multipliers
+          <div class="feature-item">
+            <span class="icon">💎</span>
+            <span>Reward Points</span>
           </div>
-          <div class="tile">
-            <mat-icon>support_agent</mat-icon>
-            24/7 concierge
+          <div class="feature-item">
+            <span class="icon">🎧</span>
+            <span>24/7 Support</span>
           </div>
         </div>
       </div>
     </div>
 
-    <mat-card class="auth-card">
-      <div class="card-header">
-        <div class="pill">Step aboard</div>
-        <h2>Set up your cockpit</h2>
-        <p class="sub">One profile for all your trips, upgrades, and team travel.</p>
-      </div>
+    <!-- Registration Form -->
+    <div class="form-pane">
+      <h2>Create Account</h2>
+      <p class="sub-text">Enter your details to get started.</p>
 
-      <div class="form-row">
-        <mat-form-field appearance="outline" class="half">
-          <mat-label>First Name</mat-label>
-          <mat-icon matPrefix>person</mat-icon>
-          <input matInput [(ngModel)]="model.firstName" />
-        </mat-form-field>
+      <form (ngSubmit)="register()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" [(ngModel)]="model.firstName" name="firstName" placeholder="First Name" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" [(ngModel)]="model.lastName" name="lastName" placeholder="Last Name" required>
+          </div>
+        </div>
 
-        <mat-form-field appearance="outline" class="half">
-          <mat-label>Last Name</mat-label>
-          <mat-icon matPrefix>person_outline</mat-icon>
-          <input matInput [(ngModel)]="model.lastName" />
-        </mat-form-field>
-      </div>
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" [(ngModel)]="model.userName" name="userName" placeholder="Username" required>
+        </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <mat-icon matPrefix>mail</mat-icon>
-        <input matInput [(ngModel)]="model.email" />
-      </mat-form-field>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="model.email" name="email" placeholder="Email" required>
+        </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Username</mat-label>
-        <mat-icon matPrefix>alternate_email</mat-icon>
-        <input matInput [(ngModel)]="model.userName" />
-      </mat-form-field>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <input [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="model.password" name="password"
+              placeholder="Password" required>
+            <button type="button" class="toggle-password" (click)="togglePassword()">
+              <svg *ngIf="hidePassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="!hidePassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <mat-icon matPrefix>key</mat-icon>
-        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="model.password" />
-        <button mat-icon-button matSuffix type="button" class="password-toggle" (click)="togglePassword()"
-          [class.active]="!hidePassword" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
-          title="Toggle password visibility">
-          <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-        </button>
-      </mat-form-field>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="input-wrapper">
+            <input [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="model.confirmPassword"
+              name="confirmPassword" placeholder="Confirm Password" required>
+            <button type="button" class="toggle-password" (click)="toggleConfirmPassword()">
+              <svg *ngIf="hideConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="!hideConfirmPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Confirm Password</mat-label>
-        <mat-icon matPrefix>verified_user</mat-icon>
-        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="model.confirmPassword" />
-        <button mat-icon-button matSuffix type="button" class="password-toggle" (click)="toggleConfirmPassword()"
-          [class.active]="!hideConfirmPassword"
-          [attr.aria-label]="hideConfirmPassword ? 'Show confirm password' : 'Hide confirm password'"
-          title="Toggle password visibility">
-          <mat-icon>{{ hideConfirmPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-        </button>
-      </mat-form-field>
+        <div *ngIf="errorMessage" class="error-alert">
+          {{ errorMessage }}
+        </div>
 
-      <div class="helper-row">
-        <div class="helper-text">Use at least 8 characters with a mix of letters and numbers.</div>
-      </div>
+        <button type="submit" class="submit-btn">Register</button>
 
-      <button mat-raised-button color="accent" class="cta" (click)="register()">
-        <mat-icon>flight_takeoff</mat-icon>
-        Register
-      </button>
+        <p class="login-link">
+          Already have an account? <a routerLink="/login">Login</a>
+        </p>
+      </form>
+    </div>
 
-      <div class="cta-secondary">
-        Already flying with us?
-        <a routerLink="/login">Go to login</a>
-      </div>
-
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-    </mat-card>
   </div>
 </div>

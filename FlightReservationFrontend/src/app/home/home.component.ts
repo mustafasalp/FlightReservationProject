@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -53,7 +54,8 @@ export class HomeComponent {
     private router: Router,
     private route: ActivatedRoute,
     public auth: AuthService,
-    private flightsService: FlightsService
+    private flightsService: FlightsService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,7 @@ export class HomeComponent {
     // Load flights initially
     this.loadAllFlights();
     this.loadLocations();
+    this.loadPartners();
   }
 
   loadLocations() {
@@ -81,14 +84,18 @@ export class HomeComponent {
 
   loadAllFlights() {
     this.loading = true;
+    console.log('Loading all flights...');
     this.flightsService.getAllFlights().subscribe({
       next: (res: any) => {
+        console.log('Flights loaded:', res);
         this.flights = res;
         this.loading = false;
+        this.cdr.detectChanges(); // Force update
       },
       error: (err: any) => {
-        console.error(err);
+        console.error('Error loading flights:', err);
         this.loading = false;
+        this.cdr.detectChanges(); // Force update even on error
       }
     });
   }
@@ -115,24 +122,31 @@ export class HomeComponent {
 
     this.flightsService.searchFlights(params).subscribe({
       next: (res: any) => {
+        console.log('Search results:', res);
         this.flights = res;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error(err);
         this.flights = [];
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
-  onBook(id: number) {
-    if (this.auth.isLoggedIn()) {
-      this.router.navigate(['/flights', id, 'book']);
-    } else {
-      // Create url tree to navigate to login
+  onBook(flightId: number) {
+    if (!this.auth.isLoggedIn()) {
       this.router.navigate(['/login']);
+      return;
     }
+    this.router.navigate(['/flights', flightId, 'book']);
+  }
+
+  getAirportCode(city: any): string {
+    if (!city || typeof city !== 'string') return 'AAA';
+    return city.substring(0, 3).toUpperCase();
   }
 
   // NAVIGATION SHORTCUTS
@@ -141,23 +155,16 @@ export class HomeComponent {
   goToMyReservations() { this.router.navigate(['/my-reservations']); }
   goToAdmin() { this.router.navigate(['/admin/flights/create']); }
 
-  airlines = [
-    { name: 'Turkish Airlines', logo: '/assets/turkishairlines.jpeg', url: 'https://www.turkishairlines.com' },
-    { name: 'Pegasus Airlines', logo: '/assets/pegasusairlines.jpeg', url: 'https://www.flypgs.com' },
-    { name: 'SunExpress', logo: '/assets/sunexpressairlines.jpeg', url: 'https://www.sunexpress.com' },
-    { name: 'Emirates', logo: '/assets/emiratesairlines.jpeg', url: 'https://www.emirates.com' },
-    { name: 'Qatar Airways', logo: '/assets/qatarairlines.jpeg', url: 'https://www.qatarairways.com' },
-    { name: 'British Airways', logo: '/assets/britishairlines.jpeg', url: 'https://www.britishairways.com' },
-    { name: 'Air France Airways', logo: '/assets/airfranceairlines.jpeg', url: 'https://wwws.airfrance.com.tr' },
-    { name: 'American Airlines', logo: '/assets/americanairlines.jpeg', url: 'https://www.aa.com' },
-    { name: 'Lufhansa Airlines', logo: '/assets/lufthansaairlines.jpeg', url: 'https://www.lufthansa.com' },
-    { name: 'Easy Jet Airlines', logo: '/assets/easyjetairlines.jpeg', url: 'https://www.easyjet.com' },
-    { name: 'Coreddon Airlines', logo: '/assets/coreddonairlines.jpeg', url: 'https://www.corendonairlines.com/' },
-    { name: 'Freebird Airlines', logo: '/assets/freebirdairlines.jpeg', url: 'https://www.freebirdairlines.com/' },
-    { name: 'Saudi Arabian Airlines', logo: '/assets/suudiarabianairlines.jpeg', url: 'https://www.saudia.com' },
-    { name: 'Ural Airlines', logo: '/assets/uralairlines.jpeg', url: 'https://www.uralairlines.com' },
-    { name: 'AnadoluJet Airlines', logo: '/assets/anadolujetairlines.jpeg', url: 'https://ajet.com/tr' },
-  ];
+  loadPartners() {
+    this.flightsService.getPartners().subscribe({
+      next: (res) => {
+        this.airlines = res;
+      },
+      error: (err) => console.error('Error loading partners', err)
+    });
+  }
+
+  airlines: any[] = [];
 
   isPast(dateStr: string): boolean {
     return new Date(dateStr) < new Date();

@@ -1,9 +1,10 @@
 // create.component.ts
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminFlightsService } from '../../../core/services/admin-flights.service';
+import { FlightsService } from '../../../services/flights.service';
 
 @Component({
   selector: 'app-admin-create-flight',
@@ -20,7 +21,9 @@ export class CreateFlightComponent {
   constructor(
     private fb: FormBuilder,
     private adminFlightsService: AdminFlightsService,
-    private router: Router
+    private flightsService: FlightsService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       flightNumber: ['', Validators.required],
@@ -46,19 +49,59 @@ export class CreateFlightComponent {
     return null;
   }
 
+  partners: any[] = [];
+
+  ngOnInit() {
+    console.log('Loading partners for dropdown...');
+    this.flightsService.getPartners().subscribe({
+      next: (res) => {
+        console.log('Partners loaded for dropdown:', res);
+        this.partners = res;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load partners', err);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  onAirlineChange(event: any) {
+    const selectedName = event.target.value;
+    const partner = this.partners.find(p => p.name === selectedName);
+
+    // Automatically set logoUrl to flight table (via backend logic or we add it to form if needed)
+    // The current form structure relies on backend to handle LogoUrl or we send it?
+    // Wait, the create command sends the form value.
+    // The Flight model has LogoUrl. The form currently DOES NOT have logoUrl control?
+    // Let's check the FormBuilder group again.
+  }
+
   submit() {
     if (this.form.invalid) return;
 
     this.loading = true;
 
-    this.adminFlightsService.createFlight(this.form.value).subscribe({
+    // We need to ensure we send the LogoUrl. 
+    // If the form doesn't have it, we might need to append it.
+    const flightData = { ...this.form.value };
+
+    // Find the selected partner to get the logo
+    const selectedPartner = this.partners.find(p => p.name === flightData.airline);
+    if (selectedPartner) {
+      flightData.logoUrl = selectedPartner.logoUrl;
+    }
+
+    this.adminFlightsService.createFlight(flightData).subscribe({
       next: () => {
         alert('Flight created successfully!');
-        this.router.navigate(['/admin/flights']);
+        // Small delay to ensure any potential backend race conditions or UI updates settle
+        setTimeout(() => {
+          this.router.navigate(['/admin/flights']);
+        }, 100);
       },
       error: (err) => {
         console.error('Create flight error', err);
-        // Show a more descriptive error if available
         const msg = err.error?.title || err.message || 'Failed to create flight.';
         alert(`Error: ${msg}`);
         this.loading = false;

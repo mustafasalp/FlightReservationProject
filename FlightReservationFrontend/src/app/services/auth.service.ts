@@ -18,6 +18,22 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, data);
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, data);
+  }
+
+  updateProfile(data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update-profile`, data);
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`);
+  }
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightsService } from '../services/flights.service';
 import { RouterModule } from '@angular/router';
@@ -20,21 +20,29 @@ export class MyReservationsComponent implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private flightsService: FlightsService) { }
+  constructor(
+    private flightsService: FlightsService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   airlines = [
     { name: 'Turkish Airlines', logo: '/assets/turkishairlines.jpeg' },
-    { name: 'Pegasus Airlines', logo: '/assets/pegasus.jpeg' },
-    { name: 'SunExpress', logo: '/assets/sunexpress.jpeg' },
-    { name: 'Emirates', logo: '/assets/emirates.jpeg' },
+    { name: 'Pegasus Airlines', logo: '/assets/pegasusairlines.jpeg' },
+    { name: 'SunExpress', logo: '/assets/sunexpressairlines.jpeg' },
+    { name: 'Emirates', logo: '/assets/emiratesairlines.jpeg' },
     { name: 'Qatar Airways', logo: '/assets/qatarairlines.jpeg' },
     { name: 'British Airways', logo: '/assets/britishairlines.jpeg' },
-    { name: 'Air France Airways', logo: '/assets/airfrance.jpeg' },
-    { name: 'American Airlines', logo: '/assets/american.jpeg' },
-    { name: 'Lufhansa Airlines', logo: '/assets/lufhansa.jpeg' },
-    { name: 'Easy Jet Airlines', logo: '/assets/easyjet.jpeg' },
-    { name: 'Coreddon Airlines', logo: '/assets/coreddon.jpeg' },
-    { name: 'Freebird Airlines', logo: '/assets/freebird.jpeg' },
+    { name: 'Air France Airways', logo: '/assets/airfranceairlines.jpeg' },
+    { name: 'American Airlines', logo: '/assets/americanairlines.jpeg' },
+    { name: 'Lufhansa Airlines', logo: '/assets/lufthansaairlines.jpeg' },
+    { name: 'Easy Jet Airlines', logo: '/assets/easyjetairlines.jpeg' },
+    { name: 'Coreddon Airlines', logo: '/assets/coreddonairlines.jpeg' },
+    { name: 'Freebird Airlines', logo: '/assets/freebirdairlines.jpeg' },
+    { name: 'Saudi Arabian Airlines', logo: '/assets/suudiarabianairlines.jpeg' },
+    { name: 'Ural Airlines', logo: '/assets/uralairlines.jpeg' },
+    { name: 'AnadoluJet Airlines', logo: '/assets/anadolujetairlines.jpeg' },
+    { name: 'Singapore Airlines', logo: '/assets/singaporeairlines.jpeg' },
+    { name: 'Japan Airlines', logo: '/assets/japanairlines.jpeg' }
   ];
 
   getAirlineLogo(name: string): string {
@@ -52,11 +60,13 @@ export class MyReservationsComponent implements OnInit {
         this.allReservations = data;
         this.processReservations();
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load reservations', err);
         this.error = 'Failed to load your reservations. Please try again.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -110,6 +120,7 @@ export class MyReservationsComponent implements OnInit {
         this.allReservations = this.allReservations.filter(r => r.id !== id);
         this.processReservations();
         alert('Reservation cancelled successfully.');
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Cancellation Error:', err);
@@ -125,6 +136,7 @@ export class MyReservationsComponent implements OnInit {
         }
 
         alert(`Error (${err.status}): ${msg}`);
+        this.cdr.detectChanges();
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AdminFlightsService } from '../../../core/services/admin-flights.service';
@@ -16,7 +16,8 @@ export class ListFlightsComponent implements OnInit, OnDestroy {
 
     constructor(
         private adminFlightsService: AdminFlightsService,
-        private router: Router
+        private router: Router,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -37,10 +38,13 @@ export class ListFlightsComponent implements OnInit, OnDestroy {
                 console.log('[ListFlightsComponent] Flights loaded successfully:', data);
                 this.flights = data;
                 this.loading = false;
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 console.error('[ListFlightsComponent] Error loading flights:', err);
                 this.loading = false;
+                this.cdr.detectChanges();
+
                 if (err.status === 401) {
                     // Fail silently and redirect to login
                     this.router.navigate(['/login']);

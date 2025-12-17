@@ -16,9 +16,13 @@
         </div>
 
         <div class="form-row">
-          <label>Airline <span style="font-size: 0.75rem; color: #ef4444; font-weight: normal;">(Please look airline
-              name first)</span></label>
-          <input formControlName="airline" placeholder="Turkish Airlines">
+          <label>Airline <span style="font-size: 0.75rem; color: #fbbf24; font-weight: normal;">(Select from
+              Partners)</span></label>
+          <select formControlName="airline"
+            style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white;">
+            <option value="" disabled>Select Airline</option>
+            <option *ngFor="let p of partners" [value]="p.name">{{ p.name }}</option>
+          </select>
         </div>
 
         <div class="form-row">

@@ -1,11 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -17,11 +12,6 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
     RouterLink
   ]
 })
@@ -35,7 +25,11 @@ export class LoginComponent {
   hidePassword: boolean = true;
   errorMessage: string = '';
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   login() {
     this.loading = true;
@@ -51,13 +45,16 @@ export class LoginComponent {
 
         this.router.navigate(['/']);
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
+        console.error('Login failed');
         this.loading = false;
         const isEmail = this.model.usernameOrEmail.includes('@');
         this.errorMessage = isEmail
           ? 'Email or password is incorrect. Please try again.'
           : 'Username or password is incorrect. Please try again.';
+        this.cdr.detectChanges();
       }
     });
   }

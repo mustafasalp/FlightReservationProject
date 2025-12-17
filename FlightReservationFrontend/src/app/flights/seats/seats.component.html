@@ -224,9 +224,13 @@
         <div class="form-row">
           <label style="color: #64748b; font-weight: 500;">Card Number</label>
           <div style="position: relative;">
-            <input type="number" formControlName="cardNumber" placeholder="0000 0000 0000" maxlength="12"
+            <input type="number" formControlName="cardNumber" placeholder="0000 0000 0000 0000"
               style="width: 100%; padding: 12px 15px; padding-left: 45px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: all 0.2s;">
             <div style="position: absolute; left: 15px; top: 12px; font-size: 1.2rem; opacity: 0.5;">💳</div>
+            <div *ngIf="bookingForm.get('cardNumber')?.touched && bookingForm.get('cardNumber')?.invalid"
+              style="color: red; font-size: 0.8rem; margin-top: 5px;">
+              Card number must be 16 digits.
+            </div>
           </div>
         </div>
 
@@ -235,6 +239,11 @@
             <label style="color: #64748b; font-weight: 500;">Expiry Date</label>
             <input type="month" formControlName="expiryDate"
               style="width: 100%; padding: 12px 15px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 1rem;">
+            <div *ngIf="bookingForm.get('expiryDate')?.touched && bookingForm.get('expiryDate')?.invalid"
+              style="color: red; font-size: 0.8rem; margin-top: 5px;">
+              <span *ngIf="bookingForm.get('expiryDate')?.errors?.['pastDate']">Date cannot be in the past.</span>
+              <span *ngIf="bookingForm.get('expiryDate')?.errors?.['required']">Required.</span>
+            </div>
           </div>
           <div class="form-row">
             <label style="color: #64748b; font-weight: 500;">CVV</label>

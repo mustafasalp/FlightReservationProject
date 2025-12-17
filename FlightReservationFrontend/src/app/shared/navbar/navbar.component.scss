@@ -67,48 +67,72 @@
     }
 
     // ADMIN DROPDOWN STYLE
-    .admin-dropdown {
+    .admin-dropdown,
+    .user-dropdown {
       position: relative;
       cursor: pointer;
 
-      .admin-label {
+      span {
+        padding: 0.5rem 0;
+        display: block;
+      }
+
+      .admin-label,
+      .user-name {
         color: rgba(255, 255, 255, 0.9);
         font-weight: 500;
-
-        &::after {
-          content: ' ▼';
-          font-size: 0.7rem;
-        }
       }
 
       .dropdown-menu {
         display: none;
         position: absolute;
-        top: 28px;
-        left: 0;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
+        top: 100%; // Adjust to sit below parent
+        right: 0; // Align right for user dropdown usually
+        left: auto; // Override left:0
+        background: rgba(0, 0, 0, 0.85); // Darker background for visibility
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
         padding: 0.5rem 0;
         z-index: 1001;
-        min-width: 150px;
+        min-width: 180px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 
         li {
-          padding: 0.5rem 1rem;
+          padding: 0.75rem 1.25rem;
           white-space: nowrap;
-          transition: background 0.2s ease;
-          color: white;
+          transition: all 0.2s ease;
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.95rem;
 
           &:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding-left: 1.5rem; // Slight movement on hover
+          }
+
+          &::after {
+            display: none; // Remove the underlining effect from main nav items
           }
         }
       }
 
       &:hover .dropdown-menu {
         display: block;
+        animation: fadeIn 0.2s ease-out;
       }
     }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

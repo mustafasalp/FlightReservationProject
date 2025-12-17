@@ -16,6 +16,7 @@
       <ul class="dropdown-menu">
         <li routerLink="/admin/flights">Flights List</li>
         <li routerLink="/admin/flights/create">Create Flight</li>
+        <li routerLink="/admin/partners">Manage Partners</li>
       </ul>
     </li>
 
@@ -24,9 +25,13 @@
     <li *ngIf="!authService.isLoggedIn()" routerLink="/register">Register</li>
 
     <!-- LOGGED-IN USER -->
-    <li *ngIf="authService.isLoggedIn()" class="user-chip">
-      {{ userName }}
+    <li *ngIf="authService.isLoggedIn()" class="user-dropdown">
+      <span class="user-name">{{ userName }} ▾</span>
+      <ul class="dropdown-menu">
+        <li routerLink="/my-reservations" *ngIf="!authService.isAdmin()">My Reservations</li>
+        <li routerLink="/user-settings">Settings</li>
+        <li (click)="logout()">Logout</li>
+      </ul>
     </li>
-    <li *ngIf="authService.isLoggedIn()" (click)="logout()">Logout</li>
   </ul>
 </nav>
