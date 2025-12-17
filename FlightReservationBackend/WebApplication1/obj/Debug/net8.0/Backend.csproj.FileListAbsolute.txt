@@ -115,4 +115,10 @@ C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\
 C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\obj\Debug\net8.0\Backend.pdb
 C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\obj\Debug\net8.0\Backend.genruntimeconfig.cache
 C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\obj\Debug\net8.0\ref\Backend.dll
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\obj\Debug\net8.0\Backend.sourcelink.json
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\bin\Debug\net8.0\MailKit.dll
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\bin\Debug\net8.0\MimeKit.dll
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\MUSTAFA\OneDrive - İzmir Katip Çelebi Üniversitesi\Ekler\Masaüstü\Uçak Rezervasyon Uygulaması Yeni\FlightReservationBackend\WebApplication1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

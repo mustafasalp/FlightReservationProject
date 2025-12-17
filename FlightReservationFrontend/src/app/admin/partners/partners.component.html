@@ -1,0 +1,56 @@
+<div class="admin-container">
+    <h1>Airline Partners Management</h1>
+
+    <div class="content-grid">
+        <!-- ADD FORM -->
+        <div class="card form-card">
+            <h2>Add New Partner</h2>
+            <form (ngSubmit)="addPartner()">
+                <div class="form-group">
+                    <label>Airline Name</label>
+                    <input type="text" [(ngModel)]="model.name" name="name" placeholder="e.g. Delta Airlines" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Logo URL (Asset Path)</label>
+                    <input type="text" [(ngModel)]="model.logoUrl" name="logoUrl" placeholder="/assets/delta.png"
+                        required>
+                    <small>Ensure the image exists in /assets folder.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Website URL</label>
+                    <input type="text" [(ngModel)]="model.websiteUrl" name="websiteUrl" placeholder="https://delta.com"
+                        required>
+                </div>
+
+                <button type="submit" [disabled]="isLoading">
+                    {{ isLoading ? 'Adding...' : 'Add Partner' }}
+                </button>
+            </form>
+        </div>
+
+        <!-- LIST -->
+        <div class="card list-card">
+            <h2>Existing Partners ({{ partners.length }})</h2>
+
+            <div class="partners-list">
+                <div class="partner-item" *ngFor="let p of partners">
+                    <img [src]="p.logoUrl" [alt]="p.name" class="partner-logo">
+
+                    <div class="partner-info">
+                        <h3>{{ p.name }}</h3>
+                        <a [href]="p.websiteUrl" target="_blank">{{ p.websiteUrl }}</a>
+                        <span class="path">{{ p.logoUrl }}</span>
+                    </div>
+
+                    <button class="delete-btn" (click)="deletePartner(p.id)">Delete</button>
+                </div>
+
+                <div *ngIf="partners.length === 0" class="empty-state">
+                    No partners found. Add one to start.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

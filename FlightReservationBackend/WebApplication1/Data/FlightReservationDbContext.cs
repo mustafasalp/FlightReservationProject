@@ -15,6 +15,7 @@ namespace Backend.Data
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<AirlinePartner> AirlinePartners { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

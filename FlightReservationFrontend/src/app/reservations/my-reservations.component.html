@@ -133,7 +133,7 @@
                         style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">
                         Cancel Reservation
                     </button>
-                    <span *ngIf="!canCancel(res.flight?.departureTime)"
+                    <span *ngIf="!canCancel(res.flight?.departureTime) && activeTab === 'current'"
                         style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">
                         Cannot cancel (less than 3 days)
                     </span>

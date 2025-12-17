@@ -17,7 +17,12 @@ import { RouterLink } from '@angular/router';
           <div class="contact-info">
             <div class="contact-item">
               <strong>Email:</strong>
-              <p><a href="mailto:support@flightreserve.com">support@flightreserve.com</a></p>
+              <p>
+                <a href="mailto:support@flightreserve.com">flightreservationsup@gmail.com</a><br>
+                <span style="font-size: 0.85rem; color: #64748b; font-weight: normal; display: block; margin-top: 4px;">
+                  Feel free to mail us for any questions or concerns.
+                </span>
+              </p>
             </div>
             <div class="contact-item">
               <strong>Phone:</strong>
@@ -92,7 +97,7 @@ import { RouterLink } from '@angular/router';
           <h2>🐛 Report a Problem</h2>
           <p>
             If you encounter any issues with our website or mobile application, please email us at
-            <a href="mailto:bugs@flightreserve.com">bugs@flightreserve.com</a> with details about the problem.
+            <a href="mailto:bugs@flightreserve.com">flightreservationsup@gmail.com</a> with details about the problem.
           </p>
         </section>
 

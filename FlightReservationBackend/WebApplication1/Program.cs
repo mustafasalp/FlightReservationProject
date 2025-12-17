@@ -75,6 +75,8 @@ builder.Services.AddAuthorization();
 
 // TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
+// EmailService
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

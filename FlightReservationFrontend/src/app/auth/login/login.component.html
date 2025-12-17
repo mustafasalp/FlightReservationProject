@@ -1,46 +1,80 @@
-<div class="login-page">
-  <div class="overlay"></div>
+<div class="login-container">
+  <div class="login-shell">
 
-  <div class="login-wrapper">
-    <div class="login-text">
-      <h1>Welcome Back, Captain</h1>
-      <p>Board your flight dashboard and unlock exclusive features</p>
-    </div>
+    <!-- Hero / Info Section -->
+    <div class="hero-pane">
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="badge">Welcome Back</div>
+        <h1>Captain, Your Cockpit Awaits</h1>
+        <p>Access your dashboard, manage bookings, and unlock exclusive rewards.</p>
 
-    <div class="login-box">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Username or Email</mat-label>
-        <mat-icon matPrefix>person</mat-icon>
-        <input matInput [(ngModel)]="model.usernameOrEmail" />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Password</mat-label>
-        <mat-icon matPrefix>key</mat-icon>
-        <input
-          matInput
-          [(ngModel)]="model.password"
-          [type]="hidePassword ? 'password' : 'text'"
-          placeholder="••••••••" />
-        <button mat-icon-button matSuffix type="button" (click)="togglePassword()">
-          <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" class="login-btn" (click)="login()" [disabled]="loading">
-        <mat-icon>login</mat-icon>
-        <span *ngIf="!loading">Login</span>
-        <span *ngIf="loading" class="spinner material-icons">refresh</span>
-      </button>
-
-      <div *ngIf="errorMessage" class="error-box">
-        <mat-icon>error_outline</mat-icon>
-        {{ errorMessage }}
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="icon">🚀</span>
+            <span>Fast Boarding</span>
+          </div>
+          <div class="feature-item">
+            <span class="icon">💎</span>
+            <span>Elite Status</span>
+          </div>
+        </div>
       </div>
-
-      <p class="register-text">
-        New here? <a routerLink="/register">Create an account</a>
-      </p>
     </div>
+
+    <!-- Login Form -->
+    <div class="form-pane">
+      <h2>Login</h2>
+      <p class="sub-text">Enter your credentials to continue.</p>
+
+      <form (ngSubmit)="login()">
+
+        <div class="form-group">
+          <label>Username or Email</label>
+          <input type="text" [(ngModel)]="model.usernameOrEmail" name="usernameOrEmail"
+            placeholder="captain@flightreserve.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <input [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="model.password" name="password"
+              placeholder="••••••••" required>
+            <button type="button" class="toggle-password" (click)="togglePassword()">
+              <svg *ngIf="hidePassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg *ngIf="!hidePassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                </path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="forgot-password">
+          <a routerLink="/forgot-password">Forgot Password?</a>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-alert">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="loading">
+          <span *ngIf="!loading">Login</span>
+          <span *ngIf="loading">Logging in...</span>
+        </button>
+
+        <p class="register-link">
+          Don't have an account? <a routerLink="/register">Register</a>
+        </p>
+      </form>
+    </div>
+
   </div>
 </div>

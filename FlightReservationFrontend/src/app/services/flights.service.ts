@@ -55,4 +55,17 @@ export class FlightsService {
   cancelReservation(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/reservations/${id}`);
   }
+
+  // AIRLINE PARTNERS
+  getPartners(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/airlinepartners`);
+  }
+
+  addPartner(partner: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/airlinepartners`, partner);
+  }
+
+  deletePartner(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/airlinepartners/${id}`);
+  }
 }
