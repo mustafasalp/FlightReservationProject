@@ -198,9 +198,7 @@ export class Seats implements OnInit {
     this.flightsService.createReservation(payload).subscribe({
       next: (res) => {
         this.successMessage = 'Booking Confirmed! Redirecting...';
-        setTimeout(() => {
-          this.router.navigate(['/my-reservations']);
-        }, 1500);
+        this.router.navigate(['/my-reservations']);
       },
       error: (err) => {
         console.error('Booking failed:', err);

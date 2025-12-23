@@ -44,6 +44,10 @@ namespace Backend.Controllers
             if (seat.IsReserved)
                 return BadRequest("Seat already reserved.");
 
+            // Check for past flights
+            if (seat.Flight.DepartureTime <= DateTime.Now)
+                return BadRequest("Cannot book a flight in the past.");
+
             // Fiyat hesaplama
             decimal price = seat.Class == "Business"
                 ? seat.Flight.BusinessPrice
@@ -62,6 +66,7 @@ namespace Backend.Controllers
             };
 
             seat.IsReserved = true;
+            seat.Status = "Scheduled";
 
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
@@ -83,6 +88,7 @@ namespace Backend.Controllers
                             <li><strong>Seat:</strong> {seat.SeatNumber} ({seat.Class})</li>
                             <li><strong>Price:</strong> ${price}</li>
                             <li><strong>Reservation Code:</strong> {reservationCode}</li>
+                            <li><strong>Status:</strong> {seat.Status}</li>
                         </ul>
                         <p>Thank you for flying with us!</p>";
 
@@ -146,6 +152,7 @@ namespace Backend.Controllers
             if (reservation.Seat != null)
             {
                 reservation.Seat.IsReserved = false;
+                reservation.Seat.Status = "Available";
             }
 
             _context.Reservations.Remove(reservation);

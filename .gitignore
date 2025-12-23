@@ -14,3 +14,23 @@ FlightReservationBackend/**/*.log
 # Genel
 .env
 appsettings.Development.json
+
+# Visual Studio
+.vs/
+*.suo
+
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+*.log

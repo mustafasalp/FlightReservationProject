@@ -40,13 +40,14 @@ namespace Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Email / username dolu mu kontrol et
+            // 1. ADIM: Kullanıcı adı veya E-posta daha önce alınmış mı kontrol et
             if (await _userManager.FindByNameAsync(dto.UserName) != null)
                 return BadRequest(new { message = "Username already taken." });
 
             if (await _userManager.FindByEmailAsync(dto.Email) != null)
                 return BadRequest(new { message = "Email already in use." });
 
+            // 2. ADIM: Yeni kullanıcı nesnesini oluştur
             var user = new ApplicationUser
             {
                 UserName = dto.UserName,
@@ -55,20 +56,24 @@ namespace Backend.Controllers
                 LastName = dto.LastName
             };
 
+            // 3. ADIM: Kullanıcıyı veritabanına kaydet (Şifreyi hashleyerek)
             var result = await _userManager.CreateAsync(user, dto.Password);
 
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
-            // Role tablosunda "User" yoksa oluştur
+            // 4. ADIM: Kullanıcıya varsayılan "User" rolünü ata
+            // Eğer "User" rolü yoksa önce oluştur
             if (!await _roleManager.RoleExistsAsync("User"))
                 await _roleManager.CreateAsync(new IdentityRole<int>("User"));
 
             await _userManager.AddToRoleAsync(user, "User");
 
+            // 5. ADIM: Kayıt sonrası otomatik giriş için Token üret
             var roles = await _userManager.GetRolesAsync(user);
             var token = _tokenService.CreateToken(user, roles);
 
+            // 6. ADIM: Başarılı yanıt dön
             return Ok(new
             {
                 success = true,
@@ -86,21 +91,31 @@ namespace Backend.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
+            // 1. ADIM: Kullanıcıyı veritabanında ara (Kullanıcı adı veya E-posta ile)
             ApplicationUser? user =
                 await _userManager.FindByNameAsync(dto.UserNameOrEmail)
                 ?? await _userManager.FindByEmailAsync(dto.UserNameOrEmail);
 
+            // Kullanıcı bulunamazsa hata dön
             if (user == null)
                 return Unauthorized(new { message = "Invalid username or password." });
 
+            // 2. ADIM: Şifre doğrulaması yap
+            // CheckPasswordSignInAsync, hashlenmiş şifre ile girilen şifreyi güvenli bir şekilde karşılaştırır
             var signInResult = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
 
+            // Şifre yanlışsa 401 Unauthorized hatası dön
             if (!signInResult.Succeeded)
                 return Unauthorized(new { message = "Invalid username or password." });
 
+            // 3. ADIM: Giriş başarılı, Token üret
+            // Kullanıcının rollerini (Admin, User vb.) getir
             var roles = await _userManager.GetRolesAsync(user);
+            
+            // JWT Token oluştur (Bu token, sonraki isteklerde kimlik doğrulaması için kullanılacak)
             var token = _tokenService.CreateToken(user, roles);
 
+            // 4. ADIM: İstemciye başarılı yanıt ve gerekli bilgileri dön
             var response = new LoginResponseDto
             {
                 Success = true,

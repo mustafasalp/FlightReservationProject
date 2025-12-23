@@ -22,6 +22,7 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetAll()
         {
             var flights = await _context.Flights
+                .Where(f => f.DepartureTime > DateTime.Now)
                 .OrderBy(f => f.DepartureTime)
                 .ToListAsync();
 
@@ -98,6 +99,9 @@ namespace Backend.Controllers
                 query = query.Where(f => f.Origin.ToLower().Contains(originLower));
                 Console.WriteLine($"Filtering by Origin: {originLower}");
             }
+
+            // Exclude past flights
+            query = query.Where(f => f.DepartureTime > DateTime.Now);
 
             // Destination filter (case-insensitive)
             if (!string.IsNullOrWhiteSpace(destination))
