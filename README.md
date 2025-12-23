@@ -67,6 +67,8 @@ dotnet run
 Default backend URL:
 https://localhost:5001
 
+---
+
 🟦 Frontend
 
 Navigate to frontend folder:
@@ -97,6 +99,8 @@ Apply migrations (if not applied yet):
 
 dotnet ef database update
 
+---
+
 🧠 How It Works
 
 The Angular frontend uses a REST API to communicate with the backend.
@@ -104,6 +108,8 @@ The Angular frontend uses a REST API to communicate with the backend.
 The backend handles business logic, database access, and authentication.
 
 JWT tokens are stored in localStorage for authenticated API calls.
+
+---
 
 📌 Notes
 
@@ -113,11 +119,15 @@ Not intended for production use yet
 
 Features like email verification or password reset can be added later
 
+---
+
 🧑‍💻 Author
 
 Mustafa Salih ALP
 Computer Engineering Student
 Izmir Katip Çelebi University
+
+---
 
 📄 License
 
